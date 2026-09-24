@@ -16,7 +16,7 @@ spec:
       serviceAccountName: full-access-sa
       containers:
         - name: boardgame
-          image: rakesh5293/java-gihub:4dd83c3
+          image: rakesh5293/java-gihub:73dfeca
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
