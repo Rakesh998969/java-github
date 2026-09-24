@@ -16,11 +16,10 @@ spec:
       serviceAccountName: full-access-sa
       containers:
         - name: boardgame
-          image: rakesh5293/java-gihub:latest
+          image: rakesh5293/java-gihub:719b149
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
-
 ---
 # 5. Create Boardgame Service
 apiVersion: v1
@@ -35,4 +34,7 @@ spec:
       port: 80
       targetPort: 8080
   type: LoadBalancer
-
+  template:
+    spec:
+      containers:
+        - image: rakesh5293/java-gihub:719b149
