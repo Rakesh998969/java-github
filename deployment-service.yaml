@@ -16,22 +16,7 @@ spec:
       serviceAccountName: full-access-sa
       containers:
         - name: boardgame
-          image: rakesh5293/java-gihub:1c891a4
+          image: rakesh5293/java-gihub:4dd83c3
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
-
----
-# 5. Create Boardgame Service
-apiVersion: v1
-kind: Service
-metadata:
-  name: boardgame-ssvc
-spec:
-  selector:
-    app: boardgame
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 8080
-  type: LoadBalancer
