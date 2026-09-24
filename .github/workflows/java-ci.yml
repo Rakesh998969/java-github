@@ -79,15 +79,15 @@ jobs:
             -O /usr/bin/yq
           sudo chmod +x /usr/bin/yq
 
-      # 11. Update Kubernetes deployment image
-      - name: Update deployment-service.yaml with latest Docker tag
+            # 11. Update Kubernetes deployment image
+      - name: Update Kubernetes deployment image
         run: |
           SHORT_SHA=${GITHUB_SHA::7}
 
           yq -i \
-            '.spec.template.spec.containers[0].image = "rakesh5293/java-gihub:" + "'"$SHORT_SHA"'"' \
-            ./deployment-service.yaml
-
+            'select(.kind == "Deployment") |
+             .spec.template.spec.containers[0].image = "rakesh5293/java-gihub:" + "'"$SHORT_SHA"'"' \
+            deployment-service.yaml
       # 12. Commit deployment file changes
       - name: Commit deployment file changes
         run: |
