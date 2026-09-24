@@ -40,25 +40,35 @@ jobs:
             -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
             -Dsonar.token=${{ secrets.SONAR_TOKEN }}
 
-      # 5. Build Docker Image
-      - name: Build Docker Image
-        run: "docker build -t rakesh5293/java-gihub:${GITHUB_SHA::7} ."
+      # 5. Create short Git commit SHA
+      - name: Set Docker Image Tag
+        run: |
+          echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
+          echo "Docker Image Tag: ${GITHUB_SHA::7}"
 
-      # 6. Scan Docker Image with Trivy
-      - name: Scan Docker image with Trivy
+      # 6. Build Docker Image
+      - name: Build Docker Image
+        run: |
+          docker build -t rakesh5293/java-gihub:${SHORT_SHA} .
+
+      # 7. Scan Docker Image with Trivy
+      - name: Scan Docker Image with Trivy
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: rakesh5293/java-gihub:${{ github.sha }}
+          image-ref: rakesh5293/java-gihub:${{ env.SHORT_SHA }}
           severity: CRITICAL,HIGH
           exit-code: 0
 
-      # 7. Login to Docker Hub
+      # 8. Login to Docker Hub
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: "${{ secrets.DOCKER_USERNAME }}"
           password: "${{ secrets.DOCKER_PASSWORD }}"
 
-      # 8. Push Docker Image to Docker Hub
+      # 9. Push Docker Image to Docker Hub
       - name: Push Docker Image to Docker Hub
-        run: "docker push rakesh5293/java-gihub:${GITHUB_SHA::7}"
+        run: |
+          docker push rakesh5293/java-gihub:${SHORT_SHA}
+
+      
