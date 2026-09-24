@@ -31,3 +31,44 @@ roleRef:
   name: full-access-role
   apiGroup: rbac.authorization.k8s.io
 
+---
+# 4. Create Boardgame Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: boardgame-deployment
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: boardgame
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: boardgame
+    spec:
+      serviceAccountName: full-access-sa
+      containers:
+        - name: boardgame
+          image: rakesh5293/java-gihub:1c891a4
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+
+---
+# 5. Create Boardgame Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: boardgame-ssvc
+  namespace: default
+spec:
+  selector:
+    app: boardgame
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
+
