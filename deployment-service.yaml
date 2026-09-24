@@ -15,22 +15,7 @@ spec:
     spec:
       containers:
         - name: boardgame
-          image: rakesh5293/java-gihub:1c891a4
+          image: rakesh5293/java-gihub:09ab0dc
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: boardgame-ssvc
-  namespace: default
-spec:
-  selector:
-    app: boardgame
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 8080
-  type: LoadBalancer
