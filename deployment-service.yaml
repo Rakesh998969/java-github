@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: boardgame
-          image: rakesh5293/java-gihub:09ab0dc
+          image: rakesh5293/java-gihub:618badc
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
