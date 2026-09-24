@@ -34,7 +34,3 @@ spec:
       port: 80
       targetPort: 8080
   type: LoadBalancer
-  template:
-    spec:
-      containers:
-        - image: rakesh5293/java-gihub:719b149
