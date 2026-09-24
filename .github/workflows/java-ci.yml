@@ -34,3 +34,16 @@ jobs:
             -Dsonar.projectKey=Boardgame \
             -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
             -Dsonar.token=${{ secrets.SONAR_TOKEN }}
+      - name: Build Docker Image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          tags: rakesh5293/java-github:latest
+      - name: Scan Docker image with trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: rakesh5293/java-github:latest
+          severity: CRITICAL,HIGH
+          exit-code: 0
+
