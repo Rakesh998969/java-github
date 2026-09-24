@@ -20,3 +20,18 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
+
+---
+# 5. Create Boardgame Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: boardgame-ssvc
+spec:
+  selector:
+    app: boardgame
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
